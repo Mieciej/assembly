@@ -27,13 +27,13 @@ section .text
         call    scanf wrt ..plt
         
 
-        movlpd  xmm0, [x]
+        movlpd  xmm0, [x] ; create tupe (x^2, x^2)
         movlpd  xmm3, [x]
-        mulsd   xmm0, xmm0
+        mulsd   xmm0, xmm0 ; create tupe (x^2, x^2)
 
         movlpd  [x_t], xmm0
         movhpd  xmm3, [x_t]
-        movlpd  [x_t], xmm0
+        movlpd  [x_t], xmm0 ; create tupe (x^2, x^2)
 
         movdqu  xmm2, [num_initial]
         mov     rcx, 1
@@ -45,7 +45,7 @@ section .text
         cmp     rcx, r8
         jg      exit
 
-
+        ; add next element of the series 
         movdqu  xmm7, xmm3
         divpd   xmm7, xmm2
         movupd  [sum], xmm7
@@ -53,7 +53,7 @@ section .text
         addsd   xmm4, xmm0
         movlpd  xmm0, [sum+8]
         addsd   xmm4, xmm0
-
+        ; calculate factorials
         punpckhqdq xmm2, xmm2
         movq    xmm0, xmm2
         mulsd   xmm0, xmm8
@@ -64,6 +64,7 @@ section .text
         movhpd  xmm2, [n]
         addsd   xmm8, xmm9
 
+        ; calculate x^k
         movlpd  xmm0, [x_t]
         movhpd  xmm0, [x_t]
         mulpd   xmm3, xmm0
